@@ -1,31 +1,57 @@
-﻿@{
+﻿@model TBlockSharer.Models.Index
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>TBlockSharer</h1>
+    <p class="lead">TBlockSharer allows you to share your Twitter block list with other users.</p>
+    <p>@Html.ActionLink("Learn more »", "LearnMore", "About", null, new { @class = "btn btn-primary btn-lg" })</p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <h2>Your blocks</h2>
+        @if (Model == null || Model.BlockedUsers == null) { 
+            <p>This will list your current block list as fetched from twitter.</p>
+        }
+        else { 
+            <select multiple class="form-control">
+                @foreach (string blockedUser in Model.BlockedUsers) { 
+                    <option>@blockedUser</option>
+                }
+            </select>
+        }
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Your shares</h2>
+        @if (Model == null || Model.SharedWithUsers == null)
+        {
+            <p>This will list the twitter users you allow to import your block list.</p>
+        }
+        else {
+            <select multiple class="form-control">
+                @foreach (string sharedWithUser in Model.SharedWithUsers)
+                {
+                    <option>@sharedWithUser</option>
+                }
+            </select>
+        }
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Your imports</h2>
+        @if (Model == null || Model.ImportedUsers == null)
+        { 
+            <p>This will list the twitter users whose block lists you import.</p>
+        }
+        else {         
+            <select multiple class="form-control">
+                @foreach (string importedUser in Model.ImportedUsers)
+                {
+                    <option>@importedUser</option>
+                }
+            </select>
+        }
     </div>
 </div>
